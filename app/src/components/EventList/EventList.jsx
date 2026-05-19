@@ -9,26 +9,22 @@ import { useState } from "react";
 // TODO: replace the mock data import with a fetch call to GET /events
 
 export default function EventList() {
-
-const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  const filteredEvents = events.filter(
+    (event) =>
+      event.name.toLowerCase().includes(searchInput.toLowerCase()) ||
+      event.city.toLowerCase().includes(searchInput.toLowerCase())
+  );
 
   return (
-
     <>
-    
-    <SearchBar searchInput={searchInput} setSearchInput={setSearchInput}/>
-    
-    <ul className={styles.list}>
-      {events
-        .filter((event) =>
-          event.name.toLowerCase().includes(searchInput.toLowerCase()) ||
-          event.city.toLowerCase().includes(searchInput.toLowerCase())
-        )
-        .map((event) => (
-          <EventCard key={event.id} event={event}/>
-        ))}
-    </ul>
-    </>
+      <SearchBar searchInput={searchInput} setSearchInput={setSearchInput} />
 
+      <ul className={styles.list}>
+        {filteredEvents.map((event) => (
+          <EventCard key={event.id} event={event} />
+        ))}
+      </ul>
+    </>
   );
 }
