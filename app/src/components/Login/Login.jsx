@@ -20,7 +20,7 @@ const [success, setSuccess] = useState("");
 
 const handleSubmit = async (e) => {
   e.preventDefault();
-  setError(null);
+  setError("");
   setError("");
   setSuccess("");
 
