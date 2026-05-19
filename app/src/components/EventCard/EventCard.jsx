@@ -1,6 +1,7 @@
 import styles from "./EventCard.module.css";
 
 const EventCard = ({event}) => {
+    
     return(
         <div className={styles.card}>
             <div className={styles.header}>
@@ -10,12 +11,17 @@ const EventCard = ({event}) => {
             <h3 className={styles.title}>{event.name}</h3>
             <p>📅 {event.date} • ⏰ {event.time}</p>
             <p>🏙️ {event.venue}, {event.city}</p>
-            <p>{event.description.slice(0, 100)}...</p>
+            {/* <p>{event.description.slice(0, 100)}...</p> */}
             <div className={styles.footer}>
-                <span className={styles.price}>{event.price}</span>
-                <button className={styles.button}>Buy ticket</button>
+                {event.price === 0 ? <span className={styles.price}>Free</span> :
+                <span className={styles.price}>{event.price} DKK</span>}  | 
+                {event.ticketsAvailable > 0 ? 
+                <span>  {event.ticketsAvailable} tickets left</span> : 
+                <span>  Sold Out</span>
+                }
             </div>
         </div>
+
     )
 }
 export default EventCard;
