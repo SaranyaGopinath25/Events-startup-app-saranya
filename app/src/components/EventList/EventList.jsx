@@ -30,7 +30,9 @@ const { data: events, isLoading } = useEvents(api("/events"));
 
       <ul className={styles.list}>
         {filteredEvents.map((event) => (
-          <EventCard key={event.id} event={event} />
+          <Link key={event.id} to={`/events/${event.id}`}>
+            <EventCard key={event.id} event={event} />
+          </Link>
         ))}
       </ul>
     </>
