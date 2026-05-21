@@ -13,43 +13,22 @@ import { Link } from "react-router-dom";
 // TODO: replace the mock data import with a fetch call to GET /events
 
 export default function EventList() {
-
-const [searchInput, setSearchInput] = useState("");
-const [page, setPage] = useState(1);
-const limit = 6;
-
-const apiUrl = searchInput ? api(`/events?q=${searchInput}&_page=${page}&_limit=${limit}`) : api(`/events?_page=${page}&_limit=${limit}`);
-
-const { data : events, loading, error, totalCount} = useEvents(apiUrl);
-
-const totalPages = Math.ceil(totalCount / limit);
-
-
-if(loading){
-  return <p>Loading events...</p>;
-}
-  
-if(error){
-  return <p>Something went wrong: {error}</p>
-}
-
+  const [searchInput, setSearchInput] = useState("");
+  const filteredEvents = events.filter(
+    (event) =>
+      event.name.toLowerCase().includes(searchInput.toLowerCase()) ||
+      event.city.toLowerCase().includes(searchInput.toLowerCase())
+  );
 
   return (
     <>
-    <SearchBar searchInput={searchInput} setSearchInput={setSearchInput}/>
-    
-    <ul className={styles.list}>
-      {events.map((event) => (
-        
-        <Link key={event.id} to={`/events/${event.id}`}>
-            <EventCard event={event}/>
-        </Link>
+      <SearchBar searchInput={searchInput} setSearchInput={setSearchInput} />
+
+      <ul className={styles.list}>
+        {filteredEvents.map((event) => (
+          <EventCard key={event.id} event={event} />
         ))}
-    </ul>
-
-    <Pagination page={page} setPage={setPage} totalPages={totalPages}/>
-
+      </ul>
     </>
-
   );
 }
