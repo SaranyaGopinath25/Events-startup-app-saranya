@@ -52,11 +52,16 @@ const CartProvider = ({ children }) => {
 
     }
 
+    const clearCart = () => {
+        setCartItems([]);
+    }
+
     const value = useMemo(() => ({
         cartItems,
         cartQuantity,
         addToCart,
-        removeFromCart
+        removeFromCart,
+        clearCart
     }), [cartItems, cartQuantity]);
 
     return(
