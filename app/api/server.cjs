@@ -25,6 +25,7 @@ const routeGuards = jsonServer.rewriter({
   "/api/login": "/login",
   "/api/register": "/register",
   "/api/events*": "/events$1",
+  "/api/events/:id": "/events/:id",
   "/api/orders*": "/600/orders$1",
   "/api/users*": "/600/users$1",
 });
