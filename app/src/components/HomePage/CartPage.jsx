@@ -3,11 +3,17 @@ import { useEffect, useState } from "react";
 import { useCartItems } from "../../context/CartContext.jsx";
 import events from "../../data/events.js";
 import styles from "./CartPage.module.css";
+import { useOrder } from "../../context/OrderContext.jsx";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 const CartPage = () => {
-    const { cartItems, removeFromCart, addToCart } = useCartItems();
+    const { user } = useAuth();
+    const { cartItems, removeFromCart, addToCart, clearCart } = useCartItems();
+    const { createOrder } = useOrder();
     const [cartDetails, setCartDetails] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Combine cart items with event details
@@ -35,6 +41,19 @@ const CartPage = () => {
             </div>
         );
     }
+
+    function handleCheckout() {
+    if (!user) {
+      setError("You must be logged in to checkout!");
+      return;
+    }
+    createOrder(cartItems);
+    clearCart();
+    navigate("/orders");
+    // clearCart();
+  }
+
+
 
     return (
         <div className={styles.cartPage}>
@@ -112,7 +131,7 @@ const CartPage = () => {
                         <span>Total</span>
                         <span>{totalPrice} DKK</span>
                     </div>
-                    <button className={styles.checkoutBtn}>
+                    <button className={styles.checkoutBtn} onClick={handleCheckout}>
                         Proceed to Checkout
                     </button>
                 </div>
