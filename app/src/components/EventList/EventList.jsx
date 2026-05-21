@@ -13,6 +13,10 @@ import { Link } from "react-router-dom";
 // TODO: replace the mock data import with a fetch call to GET /events
 
 export default function EventList() {
+
+
+const { data: events, isLoading } = useEvents(api("/events"));
+
   const [searchInput, setSearchInput] = useState("");
   const filteredEvents = events.filter(
     (event) =>
