@@ -5,39 +5,39 @@ import { useCartItems } from "../../context/CartContext.jsx";
 import styles from "./Header.module.css";
 
 
-
 const Header = () => {
-    const { user, logout } = useAuth();
-    const { cartQuantity } = useCartItems();
-    console.log("Header user:", user);
+  const { user, logout } = useAuth();
+  const { cartQuantity } = useCartItems();
+  console.log("Header user:", user);
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleLogout = () => {
-        logout();
-        navigate('/login');
-    }
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
-    return(
-        <header className={styles.header}>
-        <nav
-            className={styles.navbar}
+  const getInitials = (email) => {
+    if (!email) return "?";
+    return email.charAt(0).toUpperCase();
+  };
+
+  return (
+    <header className={styles.header}>
+      <nav className={styles.navbar}>
+        <a
+          href="https://www.hackyourfuture.dk/"
+          target="_blank"
+          className="link"
         >
-          <a
-            href="https://www.hackyourfuture.dk/"
-            target="_blank"
-            className="link"
-          >
-            <img
-              src={hyfLogo}
-              alt="HackYourFuture logo"
-              className={styles.logo}
-            />
-          </a>
-          {/* Navigation links go here — e.g. link to event list, cart, login */}
-          <div className={styles.links}>
-
-          
+          <img
+            src={hyfLogo}
+            alt="HackYourFuture logo"
+            className={styles.logo}
+          />
+        </a>
+        {/* Navigation links go here — e.g. link to event list, cart, login */}
+        <div className={styles.links}>
           <Link to="/events" className={styles.link}>
             Events
           </Link>
@@ -50,25 +50,28 @@ const Header = () => {
                   <span className={styles.cartBadge}>{cartQuantity}</span>
                 )}
               </Link>
-              <span>{user.email}</span>
+
+                <Link to="/orders" className={styles.link}>
+              <div className={styles.userSection}>
+                <div className={styles.avatar}>{getInitials(user?.email)}</div>
+              </div>
+              </Link>
               <button onClick={handleLogout}>Sign out</button>
             </>
-          )
-            : (
-              <>
-          <Link to="/login" className={styles.link}>
-            Login
-          </Link>
-          <Link to="/register" className={styles.link}>
-            Register
-          </Link>
-              </>
-            )
-    }
-          </div>
-        </nav>
-      </header>
-    )
-}
+          ) : (
+            <>
+              <Link to="/login" className={styles.link}>
+                Login
+              </Link>
+              <Link to="/register" className={styles.link}>
+                Register
+              </Link>
+            </>
+          )}
+        </div>
+      </nav>
+    </header>
+  );
+};
 
 export default Header;
