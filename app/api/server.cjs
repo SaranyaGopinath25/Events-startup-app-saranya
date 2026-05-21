@@ -4,7 +4,9 @@ const path = require("path");
 
 const app = jsonServer.create();
 const router = jsonServer.router(path.join(__dirname, "db.json"));
-const middlewares = jsonServer.defaults();
+const middlewares = jsonServer.defaults({
+  static: path.join(__dirname, "dist"),
+});
 
 // Required: bind the router db to the app for json-server-auth to work
 app.db = router.db;
@@ -27,16 +29,21 @@ const routeGuards = jsonServer.rewriter({
   "/api/users*": "/600/users$1",
 });
 
+app.use(middlewares);
 app.use(routeGuards);
 app.use((req, res, next) => {
   console.log("Request received:", req.method, req.url);
   next();
 });
-app.use(middlewares);
 app.use(auth);
 app.use(router);
 
-const PORT = process.env.API_PORT || 3001;
+// Serve SPA entrypoint for non-API client routes
+app.get(/^\/(?!api).*$/, (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
+
+const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
   console.log(`Mock API running at http://localhost:${PORT}`);
