@@ -8,6 +8,8 @@ import { useState } from "react";
 
 import styles from "./EventDetail.module.css";
 import { useEvents } from "../../hooks/useEvents";
+import { FaRegCalendarAlt, FaBuilding } from "react-icons/fa";
+import { IoTime } from "react-icons/io5";
 
 const EventDetail = () => {
   const {id} = useParams();
@@ -45,11 +47,11 @@ const EventDetail = () => {
 
 
       <p className={styles.info}>
-        📅 {event.date} • ⏰ {event.time}
+        <FaRegCalendarAlt /> {event.date} • <IoTime /> {event.time}
       </p>
 
       <p className={styles.info}>
-        📍 {event.venue}, {event.city}
+        <FaBuilding /> {event.venue}, {event.city}
       </p>
       <h3 className={styles.category}>
         Category: 

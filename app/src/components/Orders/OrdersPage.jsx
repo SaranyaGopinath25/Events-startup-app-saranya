@@ -5,6 +5,8 @@ import api from "../../api.js";
 import styles from "./OrdersPage.module.css";
 import { useOrder } from "../../context/OrderContext.jsx";
 import { useEvents } from "../../hooks/useEvents.js";
+import { FaRegCalendarAlt, FaBuilding } from "react-icons/fa";
+import { IoTime } from "react-icons/io5";
 
 const OrdersPage = () => {
     const { user, token } = useAuth();
@@ -75,6 +77,9 @@ const OrdersPage = () => {
                             <div className={styles.orderInfo}>
                                 <h3>Order #{index + 1}</h3>
                                 <h4>{getEventById(order.events[0]?.id)?.name}</h4>
+                                <span><FaRegCalendarAlt /> {getEventById(order.events[0]?.id)?.date}   </span>    
+                                <span>    <IoTime /> {getEventById(order.events[0]?.id)?.time}</span>
+                                <p><FaBuilding /> {getEventById(order.events[0]?.id)?.venue}, {getEventById(order.events[0]?.id)?.city}</p>
                                 
                             </div>
                         </div>

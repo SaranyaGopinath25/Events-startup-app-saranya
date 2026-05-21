@@ -6,6 +6,8 @@ import styles from "./CartPage.module.css";
 import { useOrder } from "../../context/OrderContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
+import { FaRegCalendarAlt, FaBuilding } from "react-icons/fa";
+import { IoTime } from "react-icons/io5";
 
 const CartPage = () => {
     const { user } = useAuth();
@@ -73,10 +75,10 @@ const CartPage = () => {
                             <div className={styles.itemInfo}>
                                 <h3>{item.event?.name}</h3>
                                 <p className={styles.eventDetails}>
-                                    📅 {item.event?.date} • ⏰ {item.event?.time}
+                                    <FaRegCalendarAlt /> {item.event?.date} • <IoTime /> {item.event?.time}
                                 </p>
                                 <p className={styles.venue}>
-                                    📍 {item.event?.venue}, {item.event?.city}
+                                    <FaBuilding /> {item.event?.venue}, {item.event?.city}
                                 </p>
                             </div>
 

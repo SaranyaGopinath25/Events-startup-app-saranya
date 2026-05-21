@@ -3,6 +3,8 @@ import hyfLogo from "../../assets/hyf.svg";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { useCartItems } from "../../context/CartContext.jsx";
 import styles from "./Header.module.css";
+import { FaShoppingCart } from "react-icons/fa";
+import { CgLogOff } from "react-icons/cg";
 
 
 const Header = () => {
@@ -45,7 +47,8 @@ const Header = () => {
           {user ? (
             <>
               <Link to="/cart" className={styles.cartLink}>
-                <span className={styles.cartIcon}>🛒</span>
+                <FaShoppingCart size={20} />
+                {/* <span className={styles.cartIcon}>🛒</span> */}
                 {cartQuantity > 0 && (
                   <span className={styles.cartBadge}>{cartQuantity}</span>
                 )}
@@ -56,7 +59,9 @@ const Header = () => {
                 <div className={styles.avatar}>{getInitials(user?.email)}</div>
               </div>
               </Link>
-              <button onClick={handleLogout}>Sign out</button>
+              <button onClick={handleLogout}>
+                <CgLogOff size={25} />
+              </button>
             </>
           ) : (
             <>
