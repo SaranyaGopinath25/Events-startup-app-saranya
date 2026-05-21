@@ -2,7 +2,7 @@
 import { useEvents } from "../../hooks/useEvents.js";
 import EventCard from "../EventCard/EventCard.jsx";
 import SearchBar from "../SearchBar/SearchBar.jsx";
-import Pagination from "../Pagination/Pagination.jsx"
+import Pagination from "../Pagination/Pagination.jsx";
 import styles from "./EventList.module.css";
 import { useState } from "react";
 import api from "../../api.js";
@@ -14,10 +14,26 @@ import { Link } from "react-router-dom";
 
 export default function EventList() {
 
-
-const { data: events, isLoading } = useEvents(api("/events"));
-
   const [searchInput, setSearchInput] = useState("");
+  const [page, setPage] = useState(1);
+  const limit = 6;
+  
+  const apiUrl = searchInput
+  ? api(`/events?q=${searchInput}&_page=${page}&_limit=${limit}`)
+  : api(`/events?_page=${page}&_limit=${limit}`);
+  
+  const { data: events, loading, error, totalCount } = useEvents(apiUrl);
+
+  const totalPages = Math.ceil(totalCount / limit);
+
+  if (loading) {
+    return <p>Loading events...</p>;
+  }
+
+  if (error) {
+    return <p>Something went wrong: {error}</p>;
+  }
+
   const filteredEvents = events.filter(
     (event) =>
       event.name.toLowerCase().includes(searchInput.toLowerCase()) ||
@@ -35,6 +51,7 @@ const { data: events, isLoading } = useEvents(api("/events"));
           </Link>
         ))}
       </ul>
+      <Pagination page={page} setPage={setPage} totalPages={totalPages} />
     </>
   );
 }
