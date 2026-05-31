@@ -4,7 +4,7 @@ import EventCard from "../EventCard/EventCard.jsx";
 import SearchBar from "../SearchBar/SearchBar.jsx";
 import Pagination from "../Pagination/Pagination.jsx";
 import styles from "./EventList.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../../api.js";
 import { Link } from "react-router-dom";
 
@@ -17,9 +17,19 @@ export default function EventList() {
   const [searchInput, setSearchInput] = useState("");
   const [page, setPage] = useState(1);
   const limit = 6;
+
+  const [debouncedSearch, setDebouncedSearch] = useState(searchInput);
+
+useEffect(() => {
+  const handler = setTimeout(() => {
+    setDebouncedSearch(searchInput);
+  }, 1000);
+
+  return () => clearTimeout(handler);
+}, [searchInput]);
   
-  const apiUrl = searchInput
-  ? api(`/events?q=${searchInput}&_page=${page}&_limit=${limit}`)
+  const apiUrl = debouncedSearch
+  ? api(`/events?q=${debouncedSearch}&_page=${page}&_limit=${limit}`)
   : api(`/events?_page=${page}&_limit=${limit}`);
   
   const { data: events, loading, error, totalCount } = useEvents(apiUrl);
