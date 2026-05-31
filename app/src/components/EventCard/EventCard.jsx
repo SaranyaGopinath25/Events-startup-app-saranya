@@ -1,4 +1,7 @@
 import styles from "./EventCard.module.css";
+import { FaRegCalendarAlt, FaBuilding } from "react-icons/fa";
+import { IoTime } from "react-icons/io5";
+
 
 const EventCard = ({ event }) => {
   return (
@@ -9,10 +12,10 @@ const EventCard = ({ event }) => {
       </div>
       <h3 className={styles.title}>{event.name}</h3>
       <p>
-        📅 {event.date} • ⏰ {event.time}
+        <FaRegCalendarAlt /> {event.date} • <IoTime /> {event.time}
       </p>
       <p>
-        🏙️ {event.venue}, {event.city}
+        <FaBuilding /> {event.venue}, {event.city}
       </p>
       {/* <p>{event.description.slice(0, 100)}...</p> */}
       <div className={styles.footer}>
